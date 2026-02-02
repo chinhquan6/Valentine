@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valentine</title>
+
+  <style>
+    :root{
+      --maxW: 920px;
+      --radius: 22px;
+      --pink1: #ffe6ee;
+      --pink2: #ffd1df;
+      --accent: #ff4f7b;
+    }
+
+    *{ box-sizing: border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, var(--pink1), var(--pink2));
+      overflow-x:hidden;
+    }
+
+    /* Background Valentine nhẹ */
+    .bg{
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,79,123,.18) 0 6px, transparent 7px),
+        radial-gradient(circle at 70% 30%, rgba(255,79,123,.14) 0 5px, transparent 6px),
+        radial-gradient(circle at 40% 80%, rgba(255,79,123,.12) 0 4px, transparent 5px),
+        linear-gradient(180deg, var(--pink1), var(--pink2));
+      background-size: 120px 120px, 160px 160px, 140px 140px, 100% 100%;
+    }
+
+    .shade{
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.65), rgba(255,255,255,.25) 55%, rgba(255,255,255,.05));
+      pointer-events:none;
+    }
+
+    main{
+      position:relative;
+      width:min(94vw, var(--maxW));
+      padding: 18px 14px 22px;
+    }
+
+    /* Top: chỉ để Zoom */
+    .topbar{
+      display:flex;
+      justify-content:flex-end;
+      margin-bottom:12px;
+    }
+
+    .btn{
+      appearance:none;
+      border: 1px solid rgba(255,79,123,.25);
+      background: rgba(255,255,255,.8);
+      color:#c7375f;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      backdrop-filter: blur(8px);
+      transition: transform .08s ease, box-shadow .15s ease;
+    }
+
+    .btn:active{ transform: scale(.97); }
+    .btn:hover{ box-shadow: 0 6px 16px rgba(255,79,123,.25); }
+
+    .card{
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: 0 22px 60px rgba(255,79,123,.35);
+      border: 1px solid rgba(255,79,123,.25);
+      background:white;
+    }
+
+    .card img{
+      display:block;
+      width:100%;
+      height:auto;
+      cursor: zoom-in;
+    }
+
+    /* Bottom actions: Download */
+    .actions{
+      display:flex;
+      justify-content:center;
+      margin-top:14px;
+    }
+
+    /* Zoom modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background: rgba(255,182,204,.85);
+      z-index:10;
+      padding: 16px;
+    }
+
+    .modal.open{ display:flex; }
+
+    .modal img{
+      width:min(96vw, 1080px);
+      height:auto;
+      border-radius: 18px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+      cursor: zoom-out;
+      background:white;
+    }
+
+    @media (max-width: 420px){
+      main{ width:min(96vw, var(--maxW)); padding: 14px 10px 18px; }
+      .card{ border-radius: 18px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="shade" aria-hidden="true"></div>
+
+  <main>
+    <div class="topbar">
+      <button class="btn" id="zoomBtn" type="button">🔍 Zoom</button>
+    </div>
+
+    <div class="card">
+      <img id="cardImg" src="Valentine.png" alt="Valentine letter" />
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="Valentine.png" download>⬇️ Tải thiệp</a>
+    </div>
+  </main>
+
+  <div class="modal" id="modal">
+    <img src="Valentine.png" alt="Zoomed valentine letter" />
+  </div>
+
+  <script>
+    const modal = document.getElementById("modal");
+    const cardImg = document.getElementById("cardImg");
+    const zoomBtn = document.getElementById("zoomBtn");
+
+    function openModal(){ modal.classList.add("open"); }
+    function closeModal(){ modal.classList.remove("open"); }
+
+    cardImg.addEventListener("click", openModal);
+    zoomBtn.addEventListener("click", openModal);
+    modal.addEventListener("click", closeModal);
+
+    window.addEventListener("keydown", e => {
+      if (e.key === "Escape") closeModal();
+    });
+  </script>
+</body>
+</html>
